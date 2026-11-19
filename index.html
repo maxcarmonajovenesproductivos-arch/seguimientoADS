@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes CAGIO</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif; /* Fuente moderna */
+            background-color: #f4f4f9; /* Fondo claro */
+        }
+        .header {
+            background-color: #6f737e; /* Azul marino */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative; /* Para efecto de animación */
+            z-index: 1000; /* Asegura que el encabezado esté sobre otros elementos */
+        }
+        .header h1 {
+            font-size: 2.5rem; /* Tamaño de fuente aumentado */
+            letter-spacing: 2px; /* Espaciado entre letras */
+            animation: slideIn 0.5s ease-in-out; /* Efecto de deslizamiento */
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .report-list {
+            list-style-type: none;
+            padding: 0;
+            margin-left: 0; /* Pegado al borde izquierdo */
+            margin-bottom: 20px; /* Espacio entre la lista y el carrusel */
+        }
+        .report-list h3 {
+            text-align: center; /* Centrar el título */
+            margin-bottom: 20px; /* Espacio entre el título y la lista */
+            font-weight: bold; /* Negrita */
+            color: #003366; /* Color azul */
+            font-size: 1.5rem; /* Tamaño de fuente más pequeño */
+            text-transform: uppercase; /* Texto en mayúsculas */
+            letter-spacing: 1px; /* Espaciado entre letras */
+        }
+        .report-list li {
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px; /* Bordes redondeados */
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease; /* Efectos de transición */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+            position: relative; /* Para el efecto de elevación */
+        }
+        .report-list li:hover {
+            background-color: #d2d2d2; /* Color de fondo al pasar el ratón */
+            transform: translateY(-3px); /* Efecto de elevación al pasar el ratón */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra más intensa al pasar el ratón */
+            z-index: 10; /* Aumenta el índice z para que se eleve sobre otros elementos */
+        }
+        .report-list li.active {
+            background-color: #6a3d5a; /* Verde para selección activa */
+            color: white;
+            border: 1px solid #6a3d5a; /* Color de borde para la selección activa */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra más intensa para el elemento activo */
+        }
+        .carousel-inner {
+            width: 100%;
+            height: 100%; /* Asegurarse que el carrusel use todo el espacio */
+        }
+        .carousel-item {
+            height: 100%;
+            position: relative; /* Posición relativa para la leyenda */
+        }
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 50px; /* Reducir el ancho de los controles */
+            height: 50px; /* Reducir la altura de los controles */
+            top: 50%; /* Centrar verticalmente */
+            transform: translateY(-50%); /* Ajustar posición vertical */
+            background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+            border-radius: 50%; /* Bordes redondeados */
+            transition: background-color 0.3s ease; /* Transición suave al cambiar el fondo */
+        }
+        .carousel-control-prev:hover,
+        .carousel-control-next:hover {
+            background-color: rgba(0, 0, 0, 0.8); /* Color al pasar el ratón */
+        }
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: #003366; /* Color de fondo para los íconos de control */
+            border-radius: 50%; /* Bordes redondeados para los íconos */
+        }
+        .carousel-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 15%;
+            right: 15%;
+            background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente para la leyenda */
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center; /* Centrar el texto de la leyenda */
+            transition: opacity 0.3s ease; /* Transición suave */
+        }
+        .carousel-item:hover .carousel-caption {
+            opacity: 0.9; /* Aumentar opacidad al pasar el ratón */
+        }
+        iframe {
+            border: none; /* Sin borde en el iframe */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>SEGUIMIENTO OPERATIVO PROCESO DE AFILIACIONES</h1>
+    </div>
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <!-- Lista de reportes (lado izquierdo) -->
+            <div class="col-md-3">
+                <h3 class="text-center">REPORTES</h3> <!-- Título centrado -->
+                <ul class="report-list">
+                    <li id="report-0" onclick="toggleReport(0)">Reporte 1: Avance Preafiliaciones</li>
+                    <li id="report-1" onclick="toggleReport(1)">Reporte 2: Avance Preafiliaciones TPI URBANO</li>
+                    <li id="report-2" onclick="toggleReport(2)">Reporte 3: PHA</li>
+                    <li id="report-3" onclick="toggleReport(3)">Reporte 4: Sello Municipal</li>
+                </ul>
+            </div>
+
+            <!-- Carrusel de reportes (lado derecho) -->
+            <div class="col-md-9">
+                <div id="reportCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <iframe src="https://lookerstudio.google.com/embed/reporting/fd290106-f3bd-43c0-9e6b-0f782148d336/page/9qFxD" 
+                            style="width: 100%; height: 920px;" allowfullscreen></iframe>
+                            <div class="carousel-caption">
+                                <h5>Reporte 1: Avance Preafiliaciones</h5>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <iframe src="https://lookerstudio.google.com/u/0/reporting/b3728c94-d706-478c-9d90-f2706dccf3c1/page/p_tjdhnjjskd" 
+                            style="width: 100%; height: 920px;" allowfullscreen></iframe>
+                            <div class="carousel-caption">
+                                <h5>Reporte 2: Avance Preafiliaciones TPI URBANO</h5>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <iframe src="https://app.powerbi.com/view?r=eyJrIjoiM2Q1ODhjZjEtOTNlNS00ZTkxLTkwMDgtMjg3ZDQxZDZhYjFjIiwidCI6IjA4N2Y4ZmZkLTY5NzItNDc1MC04ZjlhLWMwZTQ4YjU2YmQyZiJ9" 
+                            style="width: 100%; height: 900px;" allowfullscreen></iframe>
+                            <div class="carousel-caption">
+                                <h5>Reporte 3: PHA</h5>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <iframe src="https://lookerstudio.google.com/embed/reporting/fd290106-f3bd-43c0-9e6b-0f782148d336/page/9qFxD" 
+                            style="width: 100%; height: 920px;" allowfullscreen></iframe>
+                            <div class="carousel-caption">
+                                <h5>Reporte 4: Sello Municipal</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#reportCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Anterior</span>
+                    </a>
+                    <a class="carousel-control-next" href="#reportCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Siguiente</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        let currentIndex = null; // Para controlar el índice actual seleccionado
+
+        function toggleReport(index) {
+            const reportListItems = document.querySelectorAll('.report-list li');
+
+            // Si el mismo reporte está seleccionado, desmarcarlo y continuar el carrusel
+            if (currentIndex === index) {
+                reportListItems[index].classList.remove('active'); // Desmarcar el reporte
+                currentIndex = null; // Resetear el índice actual
+                $('#reportCarousel').carousel('cycle'); // Reanudar el carrusel
+            } else {
+                // Limpiar cualquier selección previa
+                reportListItems.forEach(item => item.classList.remove('active'));
+                // Marcar el reporte seleccionado
+                reportListItems[index].classList.add('active');
+                // Cambiar el carrusel al reporte seleccionado
+                $('#reportCarousel').carousel(index);
+                $('#reportCarousel').carousel('pause'); // Pausar el carrusel
+                currentIndex = index; // Actualizar el índice actual
+            }
+        }
+    </script>
+</body>
+</html>
